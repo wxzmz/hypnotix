@@ -1541,6 +1541,27 @@ class MainWindow:
             self.on_next_channel()
         elif event.keyval == Gdk.KEY_Home:
             self.toggle_sidebar_visibility()
+        elif event.keyval == Gdk.KEY_Back:
+            if self.stack.get_visible_child_name() == "channels_page":
+              self.fullscreen = not self.fullscreen
+              if self.fullscreen:
+                  if self.sidebar_visible:
+                      self.navigate_to(self.back_page)
+                  else:
+                      self.sidebar.hide()
+                  #self.navigate_to(self.back_page)
+              else:
+                  self.window.unfullscreen()
+                  self.mpv_top_box.show()
+                  self.mpv_bottom_box.hide()
+                  if self.content_type == TV_GROUP:
+                      self.sidebar.show()
+                  self.headerbar.show()
+                  self.channels_box.set_border_width(12)
+            elif self.stack.get_visible_child_name() == "landing_page":
+                  self.application.quit()
+            else:
+              self.navigate_to(self.back_page)
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
