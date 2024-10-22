@@ -141,6 +141,7 @@ class MainWindow:
         self.mpv = None
         self.ia = IMDb()
         self.sidebar_visible = True
+        self.remote_contro = True	
 
         self.page_is_loading = False # used to ignore signals while we set widget states
 
@@ -957,7 +958,18 @@ class MainWindow:
         elif self.content_type == SERIES_GROUP:
             self.get_imdb_details(self.active_serie.name)
         self.info_menu_item.set_sensitive(True)
-        self.monitor_playback()
+#add +
+        if self.remote_contro:
+            self.monitor_playback()
+            self.window.fullscreen()
+            self.mpv_top_box.hide()
+            self.mpv_bottom_box.hide()
+            #self.sidebar.hide()
+            self.headerbar.hide()
+            self.status_label.hide()
+            self.info_revealer.set_reveal_child(False)
+            self.channels_box.set_border_width(0)
+            self.fullscreen = True
 
     def monitor_playback(self):
         self.mpv.observe_property("video-params", self.on_video_params)
@@ -1544,53 +1556,34 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
-        elif event.keyval == Gdk.KEY_Home:
-            self.toggle_sidebar_visibility()
-        elif event.keyval == Gdk.KEY_Back:
-            if self.stack.get_visible_child_name() == "channels_page":
-              self.fullscreen = not self.fullscreen
-              if self.fullscreen:
-                  if self.sidebar_visible:
+        elif self.remote_contro:
+            if event.keyval == Gdk.KEY_Home:
+                self.toggle_sidebar_visibility()
+            elif event.keyval == Gdk.KEY_Back:
+                if self.stack.get_visible_child_name() == "channels_page":
+                  self.fullscreen = not self.fullscreen
+                  if self.fullscreen:
                       self.navigate_to(self.back_page)
                   else:
-                      self.sidebar.hide()
-                  #self.navigate_to(self.back_page)
-              else:
-                  self.window.unfullscreen()
-                  self.mpv_top_box.show()
-                  self.mpv_bottom_box.hide()
-                  if self.content_type == TV_GROUP:
-                      self.sidebar.show()
-                  self.headerbar.show()
-                  self.channels_box.set_border_width(12)
-            elif self.stack.get_visible_child_name() == "landing_page":
-                  self.application.quit()
-            else:
-              self.navigate_to(self.back_page)
-        elif event.keyval == Gdk.KEY_Return:
-            if self.stack.get_visible_child_name() == "channels_page":
-                if self.fullscreen:
-                    self.on_now_channel()
-                    self.window.fullscreen()
-                    self.mpv_top_box.hide()
-                    self.mpv_bottom_box.hide()
-                    self.sidebar.hide()
-                    self.headerbar.hide()
-                    self.status_label.hide()
-                    self.info_revealer.set_reveal_child(False)
-                    self.channels_box.set_border_width(0)
+                      self.window.unfullscreen()
+                      self.mpv_top_box.show()
+                      self.mpv_bottom_box.hide()
+                      if self.content_type == TV_GROUP:
+                          self.sidebar.show()
+                      self.headerbar.show()
+                      self.channels_box.set_border_width(12)
+                elif self.stack.get_visible_child_name() == "landing_page":
+                      self.application.quit()
                 else:
-                    self.on_now_channel()
-                    self.toggle_fullscreen()
-                    self.sidebar.hide()
-        elif event.keyval == Gdk.KEY_AudioRaiseVolume:
-            if self.stack.get_visible_child_name() == "channels_page":
-                self.mpv.volume = min(self.mpv.volume + 10, 130)
-                self.mpv.show_text("Volume" + self.mpv.osd.volume + "%" )
-        elif event.keyval == Gdk.KEY_AudioLowerVolume:
-            if self.stack.get_visible_child_name() == "channels_page":
-                self.mpv.volume = max(self.mpv.volume - 10, 0)
-                self.mpv.show_text("Volume" + self.mpv.osd.volume + "%" )
+                  self.navigate_to(self.back_page)
+            elif event.keyval == Gdk.KEY_AudioRaiseVolume:
+                if self.stack.get_visible_child_name() == "channels_page":
+                    self.mpv.volume = min(self.mpv.volume + 10, 130)
+                    self.mpv.show_text("Volume " + self.mpv.osd.volume + "%" )
+            elif event.keyval == Gdk.KEY_AudioLowerVolume:
+                if self.stack.get_visible_child_name() == "channels_page":
+                    self.mpv.volume = max(self.mpv.volume - 10, 0)
+                    self.mpv.show_text("Volume " + self.mpv.osd.volume + "%" )
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
