@@ -1562,6 +1562,22 @@ class MainWindow:
                   self.application.quit()
             else:
               self.navigate_to(self.back_page)
+        elif event.keyval == Gdk.KEY_Return:
+            if self.stack.get_visible_child_name() == "channels_page":
+                if self.fullscreen:
+                    self.on_now_channel()
+                    self.window.fullscreen()
+                    self.mpv_top_box.hide()
+                    self.mpv_bottom_box.hide()
+                    self.sidebar.hide()
+                    self.headerbar.hide()
+                    self.status_label.hide()
+                    self.info_revealer.set_reveal_child(False)
+                    self.channels_box.set_border_width(0)
+                else:
+                    self.on_now_channel()
+                    self.toggle_fullscreen()
+                    self.sidebar.hide()
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
