@@ -897,6 +897,11 @@ class MainWindow:
             self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
             self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
+    def on_now_channel(self):
+        if self.stack.get_visible_child_name() == "channels_page":
+            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 0)
+            self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
+
     @async_function
     def play_async(self, channel):
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
