@@ -958,18 +958,19 @@ class MainWindow:
         elif self.content_type == SERIES_GROUP:
             self.get_imdb_details(self.active_serie.name)
         self.info_menu_item.set_sensitive(True)
-#add +
+        #if remote_contro,force fullscrenn and use sidebar_visible
         if self.remote_contro:
             self.monitor_playback()
             self.window.fullscreen()
             self.mpv_top_box.hide()
             self.mpv_bottom_box.hide()
-            #self.sidebar.hide()
             self.headerbar.hide()
             self.status_label.hide()
             self.info_revealer.set_reveal_child(False)
             self.channels_box.set_border_width(0)
             self.fullscreen = True
+            self.sidebar_visible = True
+            self.sidebar.show()
 
     def monitor_playback(self):
         self.mpv.observe_property("video-params", self.on_video_params)
@@ -1529,6 +1530,16 @@ class MainWindow:
             self.sidebar.hide()
         else:
             self.sidebar.show()
+        #if remote_contro,force fullscrenn , visibility_key use fullscrenn		
+        if self.remote_contro:			
+            self.fullscreen = True
+            self.window.fullscreen()
+            self.mpv_top_box.hide()
+            self.mpv_bottom_box.hide()
+            self.headerbar.hide()
+            self.status_label.hide()
+            self.info_revealer.set_reveal_child(False)
+            self.channels_box.set_border_width(0)		
 
 
     def on_key_press_event(self, widget, event):
@@ -1561,17 +1572,20 @@ class MainWindow:
                 self.toggle_sidebar_visibility()
             elif event.keyval == Gdk.KEY_Back:
                 if self.stack.get_visible_child_name() == "channels_page":
-                  self.fullscreen = not self.fullscreen
-                  if self.fullscreen:
+                  if self.fullscreen == False :
                       self.navigate_to(self.back_page)
                   else:
-                      self.window.unfullscreen()
-                      self.mpv_top_box.show()
-                      self.mpv_bottom_box.hide()
-                      if self.content_type == TV_GROUP:
-                          self.sidebar.show()
-                      self.headerbar.show()
-                      self.channels_box.set_border_width(12)
+                      if self.sidebar_visible:
+                          self.toggle_sidebar_visibility()
+                      else:
+                          self.window.unfullscreen()
+                          self.mpv_top_box.show()
+                          self.mpv_bottom_box.hide()
+                          if self.content_type == TV_GROUP:
+                              self.sidebar.show()
+                          self.headerbar.show()
+                          self.channels_box.set_border_width(12)
+                          self.fullscreen = not self.fullscreen
                 elif self.stack.get_visible_child_name() == "landing_page":
                       self.application.quit()
                 else:
