@@ -789,6 +789,7 @@ class MainWindow:
                 self.tv_button.set_sensitive(len(provider.channels) > 0)
                 self.movies_button.set_sensitive(len(provider.movies) > 0)
                 self.series_button.set_sensitive(len(provider.series) > 0)
+                self.tv_button.grab_focus()				
             self.go_back_button.hide()
         elif page == "categories_page":
             self.headerbar.set_title(provider.name)
