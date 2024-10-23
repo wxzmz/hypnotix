@@ -1580,7 +1580,8 @@ class MainWindow:
             self.status("self.remote_contro = %s" %  self.remote_contro)
         elif self.remote_contro:
             if event.keyval == Gdk.KEY_Home:
-                self.toggle_sidebar_visibility()
+                if self.stack.get_visible_child_name() == "channels_page":
+                    self.toggle_sidebar_visibility()
             elif event.keyval == Gdk.KEY_Back:
                 if self.stack.get_visible_child_name() == "channels_page":
                   if self.fullscreen == False :
