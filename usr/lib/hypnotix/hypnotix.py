@@ -1574,7 +1574,7 @@ class MainWindow:
             self.on_next_channel()
         elif event.keyval == Gdk.KEY_Return:
             if self.fullscreen == True and  self.sidebar_visible == False :
-                self.mpv.pause = not self.mpv.pause				
+                self.mpv.pause = not self.mpv.pause
         elif event.keyval == Gdk.KEY_PowerOff:
             self.remote_contro = not self.remote_contro
             self.status("self.remote_contro = %s" %  self.remote_contro)
