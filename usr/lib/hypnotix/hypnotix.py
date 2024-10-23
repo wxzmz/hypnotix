@@ -963,9 +963,9 @@ class MainWindow:
         elif self.content_type == SERIES_GROUP:
             self.get_imdb_details(self.active_serie.name)
         self.info_menu_item.set_sensitive(True)
+        self.monitor_playback()
         #if remote_contro,force fullscrenn and use sidebar_visible
         if self.remote_contro:
-            self.monitor_playback()
             self.window.fullscreen()
             self.mpv_top_box.hide()
             self.mpv_bottom_box.hide()
