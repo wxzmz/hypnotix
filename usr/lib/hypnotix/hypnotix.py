@@ -474,6 +474,7 @@ class MainWindow:
             self.categories_flowbox.remove(child)
         self.active_group = None
         found_groups = False
+        groups_name_focus = True
         for group in self.active_provider.groups:
             if group.group_type != self.content_type:
                 continue
@@ -509,6 +510,9 @@ class MainWindow:
             button.add(box)
             self.categories_flowbox.add(button)
             self.categories_flowbox.show_all()
+            if groups_name_focus:
+                button.grab_focus()
+                groups_name_focus = False
 
         if not found_groups:
             self.on_category_button_clicked(None, None)
