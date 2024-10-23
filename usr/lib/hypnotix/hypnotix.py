@@ -141,7 +141,7 @@ class MainWindow:
         self.mpv = None
         self.ia = IMDb()
         self.sidebar_visible = True
-        self.remote_contro = True	
+        self.remote_contro = False
 
         self.page_is_loading = False # used to ignore signals while we set widget states
 
@@ -1572,6 +1572,9 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        elif event.keyval == Gdk.KEY_PowerOff:
+            self.remote_contro = not self.remote_contro
+            self.status("self.remote_contro = %s" %  self.remote_contro)
         elif self.remote_contro:
             if event.keyval == Gdk.KEY_Home:
                 self.toggle_sidebar_visibility()
