@@ -1603,11 +1603,11 @@ class MainWindow:
                 else:
                   self.navigate_to(self.back_page)
             elif event.keyval == Gdk.KEY_AudioRaiseVolume:
-                if self.stack.get_visible_child_name() == "channels_page":
+                if self.stack.get_visible_child_name() == "channels_page" and self.mpv:
                     self.mpv.volume = min(self.mpv.volume + 10, 130)
                     self.mpv.show_text("Volume " + self.mpv.osd.volume + "%" )
             elif event.keyval == Gdk.KEY_AudioLowerVolume:
-                if self.stack.get_visible_child_name() == "channels_page":
+                if self.stack.get_visible_child_name() == "channels_page" and self.mpv:
                     self.mpv.volume = max(self.mpv.volume - 10, 0)
                     self.mpv.show_text("Volume " + self.mpv.osd.volume + "%" )
         # elif event.keyval == Gdk.KEY_Up:
