@@ -141,7 +141,7 @@ class MainWindow:
         self.mpv = None
         self.ia = IMDb()
         self.sidebar_visible = True
-        self.remote_contro = False
+        self.remote_contro = True
 
         self.page_is_loading = False # used to ignore signals while we set widget states
 

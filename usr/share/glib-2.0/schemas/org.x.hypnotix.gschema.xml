@@ -2,7 +2,7 @@
 <schemalist>
   <schema id="org.x.hypnotix" path="/org/x/hypnotix/">
     <key type="s" name="mpv-options">
-      <default>"hwdec=auto-safe"</default>
+      <default>"hwdec=rkmpp"</default>
       <summary></summary>
       <description></description>
     </key>
